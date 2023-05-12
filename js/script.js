@@ -12,15 +12,16 @@ let compWinGlobal = 0;
 function playGame(playerInput) {
   clearMessages();
 
-  let randomNumber = Math.floor(Math.random() * 3 + 1);
-  let computerMove = getMoveName(randomNumber);
-  let playerMove = getMoveName(playerInput);
+  const randomNumber = Math.floor(Math.random() * 3 + 1);
+  const computerMove = getMoveName(randomNumber);
+  const playerMove = getMoveName(playerInput);
 
   return displayResult(computerMove, playerMove); 
 }
 
 function countRoundResult() {
   gameAmount++;
+  clearMessages("resultField");
 
   if(gameAmount <= roundAmount)
   {  
@@ -60,7 +61,6 @@ function displayRoundResult() {
 		compWinGlobal++;
 	  }
 
-    clearMessages("resultField");
 	  tmpMsg =  "<b>" + roundResultMsg + "</b> <br> liczba gier wygranych przez usera: " + userWinRound + "<br> liczba gier wygranych przez komputer: " + compWinRound;
 	  printMessage(tmpMsg, "resultField");
 }
