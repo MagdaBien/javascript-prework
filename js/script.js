@@ -1,41 +1,42 @@
-const gamesInRound = 10;      // ile gier ma mieć runda 
-let gameNumber = 0;           // która gra
-let roundNumer = 0;           // która runda
-let userWinsInRound = 0;
-let compWinsInRound = 0;
-let userWinsGlobal = 0;
-let compWinsGlobal = 0; 
-
+const gameCounter = {
+  gamesInRound: 10,         // ile gier ma mieć runda 
+  gameNumber: 0,           // która gra
+  roundNumer: 0,           // która runda
+  userWinsInRound: 0,
+  compWinsInRound: 0,
+  userWinsGlobal: 0,
+  compWinsGlobal: 0 
+}
 
 function playGame(playerInput) 
 {
-  gameNumber++;
+  gameCounter.gameNumber++;
   let whoWinsGame = '';
   clearMessages('resultField');
 
-  if(gameNumber <= gamesInRound)
+  if(gameCounter.gameNumber <= gameCounter.gamesInRound)
   {
     whoWinsGame = PlayOneGame(playerInput);
-    console.log("Nr gry: " + gameNumber + " | wynik: " + whoWinsGame);
+    console.log("Nr gry: " + gameCounter.gameNumber + " | wynik: " + whoWinsGame);
 
-    if(whoWinsGame == "userWin")        {   userWinsInRound++;    }
-    else if (whoWinsGame == "compWin")  {   compWinsInRound++;    }
+    if(whoWinsGame == "userWin")        {   gameCounter.userWinsInRound++;    }
+    else if (whoWinsGame == "compWin")  {   gameCounter.compWinsInRound++;    }
   }
-  if(gameNumber == gamesInRound)
+  if(gameCounter.gameNumber == gameCounter.gamesInRound)
   {  
-    roundNumer++;
-    console.log('Koniec rundy nr ' + roundNumer); 
+    gameCounter.roundNumer++;
+    console.log('Koniec rundy nr ' + gameCounter.roundNumer); 
 
-    const whoWinsRound=displayResult(userWinsInRound, compWinsInRound, 'round', 'resultField'); 
-    if (userWinsInRound > compWinsInRound)        {      userWinsGlobal++;      }
-    else if (userWinsInRound < compWinsInRound)   {      compWinsGlobal++;      }
+    const whoWinsRound=displayResult(gameCounter.userWinsInRound, gameCounter.compWinsInRound, 'round', 'resultField'); 
+    if (gameCounter.userWinsInRound > gameCounter.compWinsInRound)        {      gameCounter.userWinsGlobal++;      }
+    else if (gameCounter.userWinsInRound < gameCounter.compWinsInRound)   {      gameCounter.compWinsGlobal++;      }
 
-    const whoWinsGlobal=displayResult(userWinsGlobal, compWinsGlobal, 'GLOBAL', 'resultGlobalField');
-    console.log("GLOBAL: " + "userWinsGlobal: " + userWinsGlobal + " compWinsGlobal: " + compWinsGlobal);
+    const whoWinsGlobal=displayResult(gameCounter.userWinsGlobal, gameCounter.compWinsGlobal, 'GLOBAL', 'resultGlobalField');
+    console.log("GLOBAL: " + "userWinsGlobal: " + gameCounter.userWinsGlobal + " compWinsGlobal: " + gameCounter.compWinsGlobal);
 
-    gameNumber = 0;
-    userWinsInRound = 0;
-    compWinsInRound = 0;   
+    gameCounter.gameNumber = 0;
+    gameCounter.userWinsInRound = 0;
+    gameCounter.compWinsInRound = 0;   
 
   }
 }
