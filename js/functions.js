@@ -22,7 +22,9 @@ function getMoveName(argMoveId) {
 }
 
 
-function displayResult(computerMove, playerMove) {
+function displayGameResult(computerMove, playerMove) {
+	clearMessages("messages");
+
 	printMessage('Zagrałem ' + computerMove + ', a Ty ' + playerMove);
   
 	if( (computerMove == 'kamień' && playerMove == 'papier') || (computerMove == 'nożyce' && playerMove == 'kamień') || (computerMove == 'papier' && playerMove == 'nożyce') ) {
@@ -42,4 +44,6 @@ function displayResult(computerMove, playerMove) {
 		return "none";
 	}
 }
+
+
 

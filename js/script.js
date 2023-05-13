@@ -1,88 +1,77 @@
-let gameAmount = 0;        
-let roundAmountGlobal = 0;       
-let roundAmount = 10;     // ile gier ma mieć runda
-let roundResultMsg = '';
-let userWinRound = 0;
-let compWinRound = 0;
-let userWinGlobal = 0;
-let compWinGlobal = 0;
+const gamesInRound = 10;      // ile gier ma mieć runda 
+let gameNumber = 0;           // która gra
+let roundNumer = 0;           // która runda
+let userWinsInRound = 0;
+let compWinsInRound = 0;
+let userWinsGlobal = 0;
+let compWinsGlobal = 0; 
+
 
 function playGame(playerInput) 
 {
-  clearMessages();
+  gameNumber++;
+  let whoWinsGame = '';
+  clearMessages('resultField');
 
+  if(gameNumber <= gamesInRound)
+  {
+    whoWinsGame = PlayOneGame(playerInput);
+    console.log("Nr gry: " + gameNumber + " | wynik: " + whoWinsGame);
+
+    if(whoWinsGame == "userWin")        {   userWinsInRound++;    }
+    else if (whoWinsGame == "compWin")  {   compWinsInRound++;    }
+  }
+  if(gameNumber == gamesInRound)
+  {  
+    roundNumer++;
+    console.log('Koniec rundy nr ' + roundNumer); 
+
+    const whoWinsRound=displayResult(userWinsInRound, compWinsInRound, 'round', 'resultField'); 
+    if (userWinsInRound > compWinsInRound)        {      userWinsGlobal++;      }
+    else if (userWinsInRound < compWinsInRound)   {      compWinsGlobal++;      }
+
+    const whoWinsGlobal=displayResult(userWinsGlobal, compWinsGlobal, 'GLOBAL', 'resultGlobalField');
+    console.log("GLOBAL: " + "userWinsGlobal: " + userWinsGlobal + " compWinsGlobal: " + compWinsGlobal);
+
+    gameNumber = 0;
+    userWinsInRound = 0;
+    compWinsInRound = 0;   
+
+  }
+}
+
+// zwraca wynik pojedynczej GRY
+function PlayOneGame(playerInput)
+{
   const randomNumber = Math.floor(Math.random() * 3 + 1);
   const computerMove = getMoveName(randomNumber);
   const playerMove = getMoveName(playerInput);
-  const result=displayResult(computerMove, playerMove); 
-
-  countRoundResult(result);
+  const whoWinsGame=displayGameResult(computerMove, playerMove);  
+  return whoWinsGame;       
 }
 
-function countRoundResult(result) {
-  gameAmount++;
-  clearMessages("resultField");
-
-  if(gameAmount <= roundAmount)
-  {  
-    console.log("Nr gry: " + gameAmount + " | wynik: " + result);
-    if(result == "userWin") {
-      userWinRound++;
-    }
-    else if (result == "compWin") {
-      compWinRound++;
-    }
-  }
-  if(gameAmount == roundAmount)
-  {
-    roundAmountGlobal++;    
-    displayRoundResult();
-    displayGlobalResult();
-
-    gameAmount = 0;
-    userWinRound = 0;
-    compWinRound = 0;   
-
-  }
-}
-
-function displayRoundResult() {
-  console.log('Koniec rundy');
+// zwraca wynik pojedynczej RUNDY lub wynik GLOBALNY
+function displayResult(userWins, compWins, what, msgField) 
+{
   let tmpMsg;
+  let whoWins;
 
-	if(userWinRound == compWinRound ) {
-		roundResultMsg = "Remis in this round";
+	if(userWins == compWins ) {
+		tmpMsg = "Remis in " + what;
 	  }
-	  else if (userWinRound>compWinRound) {
-		roundResultMsg = "User win this round";
-		userWinGlobal++;
+	  else if (userWins>compWins) {
+    tmpMsg = "User win " + what;
+    whoWins="userWin";
 	  }
 	  else {
-		roundResultMsg = "Comp win this round";
-		compWinGlobal++;
+    tmpMsg = "Comp win " + what;
+    whoWins="compWin";    
 	  }
+	  tmpMsg =  "<b>" + tmpMsg + "</b> <br> user wins: " + userWins + "<br> comp wins: " + compWins;
+    clearMessages(msgField);
+	  printMessage(tmpMsg, msgField);
 
-	  tmpMsg =  "<b>" + roundResultMsg + "</b> <br> liczba gier wygranych przez usera: " + userWinRound + "<br> liczba gier wygranych przez komputer: " + compWinRound;
-	  printMessage(tmpMsg, "resultField");
-}
-
-function displayGlobalResult() {
-  console.log("Wynik globalny: " + "userWinGlobal: " + userWinGlobal + " compWinGlobal: " + compWinGlobal);
-  let tmpMsg;
-
-  if(userWinGlobal == compWinGlobal ) {
-		tmpMsg = "Remis globally";
-	  }
-	  else if (userWinGlobal>compWinGlobal) {
-    tmpMsg = "User wins globally";
-	  }
-	  else {
-    tmpMsg = "Comp wins globally";
-	  }
-  
-  clearMessages("resultGlobalField");
-  tmpMsg = "<b>" + tmpMsg + "</b> <br> liczba rund wygranych przez usera: " + userWinGlobal + " <br> liczba rund wygranych przez komputer: " + compWinGlobal + "<br>Liczba wszystkich rozegranych rund: " + roundAmountGlobal;
-  printMessage(tmpMsg, "resultGlobalField");
+    return whoWins;
 }
 
 document.getElementById('PlayRock').addEventListener('click', function(){
