@@ -1,25 +1,25 @@
 let gameAmount = 0;        
 let roundAmountGlobal = 0;       
 let roundAmount = 10;     // ile gier ma mieć runda
-let result = '';
 let roundResultMsg = '';
-let tmpMsg = '';
 let userWinRound = 0;
 let compWinRound = 0;
 let userWinGlobal = 0;
 let compWinGlobal = 0;
 
-function playGame(playerInput) {
+function playGame(playerInput) 
+{
   clearMessages();
 
   const randomNumber = Math.floor(Math.random() * 3 + 1);
   const computerMove = getMoveName(randomNumber);
   const playerMove = getMoveName(playerInput);
+  const result=displayResult(computerMove, playerMove); 
 
-  return displayResult(computerMove, playerMove); 
+  countRoundResult(result);
 }
 
-function countRoundResult() {
+function countRoundResult(result) {
   gameAmount++;
   clearMessages("resultField");
 
@@ -41,13 +41,14 @@ function countRoundResult() {
 
     gameAmount = 0;
     userWinRound = 0;
-    compWinRound = 0;    
+    compWinRound = 0;   
 
   }
 }
 
 function displayRoundResult() {
   console.log('Koniec rundy');
+  let tmpMsg;
 
 	if(userWinRound == compWinRound ) {
 		roundResultMsg = "Remis in this round";
@@ -67,6 +68,7 @@ function displayRoundResult() {
 
 function displayGlobalResult() {
   console.log("Wynik globalny: " + "userWinGlobal: " + userWinGlobal + " compWinGlobal: " + compWinGlobal);
+  let tmpMsg;
 
   if(userWinGlobal == compWinGlobal ) {
 		tmpMsg = "Remis globally";
@@ -84,16 +86,12 @@ function displayGlobalResult() {
 }
 
 document.getElementById('PlayRock').addEventListener('click', function(){
-  result=playGame('1'); 
-  countRoundResult();
+ playGame('1'); 
 });
 document.getElementById('PlayPaper').addEventListener('click', function(){
-  result=playGame('2'); 
-  countRoundResult();
-
+ playGame('2'); 
 });
 document.getElementById('PlayScissors').addEventListener('click', function(){
-  result=playGame('3'); 
-  countRoundResult();
+ playGame('3'); 
 });
 
