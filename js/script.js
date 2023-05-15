@@ -16,7 +16,7 @@ function playGame(playerInput)
 
   if(gameCounter.gameNumber <= gameCounter.gamesInRound)
   {
-    whoWinsGame = PlayOneGame(playerInput);
+    whoWinsGame = playOneGame(playerInput);
     console.log("Nr gry: " + gameCounter.gameNumber + " | wynik: " + whoWinsGame);
 
     if(whoWinsGame == "userWin")        {   gameCounter.userWinsInRound++;    }
@@ -42,7 +42,7 @@ function playGame(playerInput)
 }
 
 // zwraca wynik pojedynczej GRY
-function PlayOneGame(playerInput)
+function playOneGame(playerInput)
 {
   const randomNumber = Math.floor(Math.random() * 3 + 1);
   const computerMove = getMoveName(randomNumber);
